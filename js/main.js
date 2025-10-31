@@ -12,3 +12,44 @@ for (let i = 0; i < numStars; i++) {
     star.style.animationDelay = `${Math.random() * 5}s`;
     document.body.appendChild(star);
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    const name = document.getElementById("name");
+    const originalText = name.textContent;
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    let interval = null;
+    let revertTimeout = null;
+
+    function startScramble() {
+        name.classList.add("scrambling"); // MinecraftEnchantment
+        clearInterval(interval);
+        interval = setInterval(() => {
+            let scrambled = "";
+            for (let i = 0; i < originalText.length; i++) {
+                const char = originalText[i];
+                scrambled += (char === " ") ? " " : chars[Math.floor(Math.random() * chars.length)];
+            }
+            name.textContent = scrambled;
+        }, 50);
+    }
+
+    function stopScramble() {
+        clearInterval(interval);
+        name.textContent = originalText;
+        name.classList.remove("scrambling"); // TheLedDisplay
+    }
+
+    name.addEventListener("mouseenter", () => {
+        clearInterval(interval);
+        clearTimeout(revertTimeout);
+        startScramble();
+    });
+
+    name.addEventListener("mouseleave", () => {
+        clearTimeout(revertTimeout);
+        revertTimeout = setTimeout(() => {
+            stopScramble();
+        }, 2000); // 2 sec
+    });
+});
