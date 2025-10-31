@@ -53,3 +53,32 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 2000); // 2 sec
     });
 });
+
+document.querySelectorAll('details').forEach((det) => {
+    const summary = det.querySelector('summary');
+    const content = Array.from(det.children).filter(el => el.tagName !== 'SUMMARY')[0];
+
+    // Inicializa altura
+    content.style.height = det.open ? content.scrollHeight + 'px' : '0';
+    content.style.opacity = det.open ? 1 : 0;
+    content.style.overflow = 'hidden';
+    content.style.transition = 'height 0.5s ease, opacity 1s ease';
+
+    summary.addEventListener('click', (e) => {
+        e.preventDefault(); // evita toggle automático
+        if (det.open) {
+            // fechar
+            content.style.height = '0';
+            content.style.opacity = 0;
+            setTimeout(() => {
+                det.removeAttribute('open');
+            }, 1000); // espera a animação terminar
+        } else {
+            // abrir
+            det.setAttribute('open', '');
+            const height = content.scrollHeight;
+            content.style.height = height + 'px';
+            content.style.opacity = 1;
+        }
+    });
+});

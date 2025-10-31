@@ -124,6 +124,7 @@ section {
 
 #about, #contact {
     max-width: 800px;
+    margin: 0 auto;
 }
 
 #about h2, #contact h2 {
@@ -135,6 +136,7 @@ section {
     color: var(--color-text-secondary);
     line-height: 1.6;
     font-size: 0.95rem;
+    margin: 0.5rem 0;
 }
 
 details {
@@ -144,6 +146,7 @@ details {
     cursor: pointer;
     transition: background var(--transition-slow);
     background: transparent;
+    overflow: hidden;
 }
 
 details:hover {
@@ -155,15 +158,47 @@ summary {
     font-size: 1.1rem;
     color: var(--color-text-highlighted);
     outline: none;
+    list-style: none;
+    user-select: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    padding-right: 1.5rem;
+}
+
+summary::-webkit-details-marker {
+    display: none;
+}
+
+summary::after {
+    content: '▼';
+    position: absolute;
+    right: 0;
+    font-size: 1rem;
+    transition: transform 0.7s ease;
+}
+
+details[open] summary::after {
+    transform: rotate(90deg);
 }
 
 details[open] summary {
     color: var(--color-hover-name);
 }
 
-summary::-webkit-details-marker {
-    display: none;
+details > *:not(summary) {
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: height 1s ease, opacity 1s ease;
 }
+
+details[open] > *:not(summary) {
+    max-height: 500px;
+    opacity: 1;
+}
+
 
 /* ====== Contact ====== */
 .contact-item {
