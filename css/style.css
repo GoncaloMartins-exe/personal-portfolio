@@ -95,3 +95,35 @@ section {
 footer{
     padding: 2rem;
 }
+
+#contact {
+    padding: 2rem;
+}
+
+#contact h2 {
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    margin: 0.5rem 0;
+}
+
+.contact-item img {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+}
+
+.contact-item a {
+    color: #8ab4f8;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.contact-item a:hover {
+    color: #b1c9ff;
+    text-decoration: underline;
+}
