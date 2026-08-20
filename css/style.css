@@ -28,6 +28,11 @@
 }
 
 /* ====== Global Styles ====== */
+html,
+body {
+    min-height: 100%;
+}
+
 body {
     font-family: var(--font-main);
     margin: 0;
@@ -36,6 +41,9 @@ body {
     color: var(--color-text);
     overflow-x: hidden;
     position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 /* ====== Hero Section ====== */
@@ -122,9 +130,11 @@ section {
     padding: 2rem;
 }
 
-#about, #contact {
+#about,
+#contact {
     max-width: 800px;
-    margin: 0 auto;
+    margin-left: 2rem;
+    margin-right: auto;
 }
 
 #about h2, #contact h2 {
@@ -254,8 +264,72 @@ details[open] > *:not(summary) {
 }
 
 /* ====== Footer ====== */
+
 footer {
+    background: rgba(51, 51, 51, 0.275);
     padding: 2rem;
+    margin: 0;
+    margin-top: auto;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-left h3,
+.footer-right h3 {
+    margin: 0 0 0.75rem 0;
+    font-size: 1rem;
+}
+
+.footer-left p {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+}
+
+.footer-socials {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.footer-socials a {
+    display: flex;
+    align-items: center;
+}
+
+.footer-socials img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    transition: opacity var(--transition-fast),
+                transform var(--transition-fast);
+}
+
+.footer-socials a:hover img {
+    opacity: 0.7;
+    transform: scale(1.1);
+}
+
+.footer-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.footer-right a {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    margin-bottom: 0.5rem;
+    transition: color var(--transition-fast);
+}
+
+.footer-right a:hover {
+    color: var(--color-text);
 }
 
 /* ====== Starry Background ====== */
