@@ -231,6 +231,28 @@ details[open] > *:not(summary) {
     margin-bottom: 1rem;
 }
 
+/* ====== Project Buttons ====== */
+
+.project-button {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    margin-right: 0.5rem;
+    border: 1px solid var(--color-text);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--color-text);
+    text-decoration: none;
+    transition: background var(--transition-fast),
+                color var(--transition-fast),
+                border-color var(--transition-fast);
+}
+
+.project-button:hover {
+    background: var(--color-text);
+    color: var(--color-bg);
+    border-color: var(--color-text);
+}
+
 /* ====== Footer ====== */
 footer {
     padding: 2rem;
