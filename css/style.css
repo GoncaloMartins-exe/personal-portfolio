@@ -164,13 +164,20 @@ details {
     border-radius: 8px;
     padding: 0.8rem 1rem;
     cursor: pointer;
-    transition: background var(--transition-slow);
+    transition: background var(--transition-fast);
     background: transparent;
     overflow: hidden;
+    box-sizing: border-box;
 }
 
 details:hover {
     background: rgba(255, 255, 255, 0.044);
+}
+
+details summary {
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 summary {
@@ -196,7 +203,7 @@ summary::after {
     position: absolute;
     right: 0;
     font-size: 1rem;
-    transition: transform 0.7s ease;
+    transition: transform 0.25s ease;
 }
 
 details[open] summary::after {
@@ -207,16 +214,36 @@ details[open] summary {
     color: var(--color-hover-name);
 }
 
-details > *:not(summary) {
-    height: 0;
+details > .details-content {
     opacity: 0;
     overflow: hidden;
-    transition: height 1s ease, opacity 1s ease;
+    height: 0;
+    transition: height 0.3s ease, opacity 0.2s ease;
 }
 
-details[open] > *:not(summary) {
-    max-height: 500px;
+details[open] > .details-content {
     opacity: 1;
+}
+
+.details-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+}
+
+.details-info {
+    flex: 1;
+}
+
+.details-info p {
+    margin: 0.5rem 0;
+}
+
+.details-date {
+    margin: 0.5rem 0;
+    white-space: nowrap;
+    color: var(--color-text-secondary);
 }
 
 

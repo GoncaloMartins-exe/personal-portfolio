@@ -56,29 +56,59 @@ document.addEventListener("DOMContentLoaded", () => {
 
 document.querySelectorAll('details').forEach((det) => {
     const summary = det.querySelector('summary');
-    const content = Array.from(det.children).filter(el => el.tagName !== 'SUMMARY')[0];
 
-    // Inicializa altura
-    content.style.height = det.open ? content.scrollHeight + 'px' : '0';
-    content.style.opacity = det.open ? 1 : 0;
+    if (!summary) return;
+
+    let content = det.querySelector(':scope > .details-content');
+
+    if (!content) {
+        content = document.createElement('div');
+        content.className = 'details-content';
+
+        Array.from(det.children)
+            .filter(el => el !== summary)
+            .forEach(el => content.appendChild(el));
+
+        det.appendChild(content);
+    }
+
     content.style.overflow = 'hidden';
-    content.style.transition = 'height 0.5s ease, opacity 1s ease';
+    content.style.height = det.open ? `${content.scrollHeight}px` : '0px';
+    content.style.opacity = det.open ? '1' : '0';
 
-    summary.addEventListener('click', (e) => {
-        e.preventDefault(); // evita toggle automático
-        if (det.open) {
-            // fechar
-            content.style.height = '0';
-            content.style.opacity = 0;
-            setTimeout(() => {
+    det.addEventListener('click', (e) => {
+        // deixa links dentro do conteúdo funcionar normalmente, sem toggle
+        if (e.target.closest('a')) return;
+
+        e.preventDefault();
+
+        const isOpen = det.hasAttribute('open');
+
+        if (isOpen) {
+            content.style.height = `${content.scrollHeight}px`;
+
+            requestAnimationFrame(() => {
+                content.style.height = '0px';
+                content.style.opacity = '0';
+            });
+
+            content.addEventListener('transitionend', function close(event) {
+                if (event.propertyName !== 'height') return;
+
                 det.removeAttribute('open');
-            }, 1000); // espera a animação terminar
+                content.removeEventListener('transitionend', close);
+            });
+
         } else {
-            // abrir
             det.setAttribute('open', '');
-            const height = content.scrollHeight;
-            content.style.height = height + 'px';
-            content.style.opacity = 1;
+
+            content.style.height = '0px';
+            content.style.opacity = '0';
+
+            requestAnimationFrame(() => {
+                content.style.height = `${content.scrollHeight}px`;
+                content.style.opacity = '1';
+            });
         }
     });
 });
