@@ -225,11 +225,16 @@ details[open] > .details-content {
     opacity: 1;
 }
 
-.details-content {
+.details-entry {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     gap: 2rem;
+    margin-bottom: 0.8rem;
+}
+
+.details-entry:last-child {
+    margin-bottom: 0;
 }
 
 .details-info {

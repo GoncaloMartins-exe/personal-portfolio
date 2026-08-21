@@ -77,7 +77,6 @@ document.querySelectorAll('details').forEach((det) => {
     content.style.opacity = det.open ? '1' : '0';
 
     det.addEventListener('click', (e) => {
-        // deixa links dentro do conteúdo funcionar normalmente, sem toggle
         if (e.target.closest('a')) return;
 
         e.preventDefault();
