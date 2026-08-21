@@ -50,6 +50,7 @@ body {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
+    margin-top: 80px;
 }
 
 /* ====== Hero Section ====== */
@@ -113,16 +114,38 @@ body {
 
 
 /* ====== Navigation ====== */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+}
+
 header nav ul {
-    display: flex;
     list-style: none;
     background: rgba(51, 51, 51, 0.275);
-    padding: 1rem;
+    padding: 1rem 2rem;
     margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5rem;
+    position: relative;
+    height: 70px;
+    box-sizing: border-box;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 
 header nav ul li {
-    margin-right: 1.5rem;
+    margin: 0;
+}
+
+header nav ul li.nav-name {
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-right: 5rem;
 }
 
 header nav ul li a {
@@ -133,6 +156,25 @@ header nav ul li a {
 
 header nav ul li a:hover {
     color: var(--color-link-hover);
+}
+
+header nav ul li.logo-item {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    height: calc(100% - 2rem);
+    display: flex;
+    align-items: center;
+}
+
+.logo-header {
+    height: 100%;
+    width: auto;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    flex-shrink: 0;
 }
 
 /* ====== Sections ====== */
@@ -312,6 +354,8 @@ footer {
     padding: 2rem;
     margin: 0;
     margin-top: auto;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 
 .footer-container {
