@@ -111,3 +111,126 @@ document.querySelectorAll('details').forEach((det) => {
         }
     });
 });
+
+(() => {
+    const nav = document.querySelector('header nav');
+    const allNavLinks = Array.from(nav.querySelectorAll('a'));
+    const navLinks = allNavLinks.filter(link => link.dataset.section);
+
+    const indicator = document.createElement('div');
+    indicator.className = 'nav-indicator';
+    nav.appendChild(indicator);
+
+    function moveIndicatorTo(link) {
+        if (!link) {
+            indicator.style.opacity = '0';
+            return;
+        }
+        const linkRect = link.getBoundingClientRect();
+        const navRect = nav.getBoundingClientRect();
+        indicator.style.opacity = '1';
+        indicator.style.width = `${linkRect.width}px`;
+        indicator.style.left = `${linkRect.left - navRect.left}px`;
+    }
+
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+
+    const staticPageLink = allNavLinks.find(link => {
+        const linkPage = link.getAttribute('href')?.split('/').pop();
+        return linkPage === currentPage && !link.dataset.section;
+    });
+
+    if (staticPageLink) {
+        allNavLinks.forEach(l => l.classList.remove('active-link'));
+        staticPageLink.classList.add('active-link');
+        moveIndicatorTo(staticPageLink);
+        window.addEventListener('resize', () => moveIndicatorTo(staticPageLink));
+        return;
+    }
+
+    const storedTarget = sessionStorage.getItem('scrollTarget');
+
+    if (storedTarget) {
+        sessionStorage.removeItem('scrollTarget');
+
+        const sectionId = storedTarget.replace('#', '');
+        const target = document.getElementById(sectionId);
+
+        if (target) {
+            requestAnimationFrame(() => {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+
+            const matchingLink = navLinks.find(l => l.dataset.section === sectionId);
+            if (matchingLink) {
+                allNavLinks.forEach(l => l.classList.remove('active-link'));
+                matchingLink.classList.add('active-link');
+                moveIndicatorTo(matchingLink);
+            }
+        }
+    }
+
+    if (navLinks.length === 0) return;
+
+    const sections = navLinks
+        .map(link => ({ link, section: document.getElementById(link.dataset.section) }))
+        .filter(item => item.section);
+
+    let lastActive = sections[0];
+
+    function updateActiveSection() {
+        if (sections.length === 0) return;
+
+        const scrolledToBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 2;
+        const scrolledToTop = window.scrollY <= 0;
+
+        let current;
+
+        if (scrolledToBottom) {
+            current = sections[sections.length - 1];
+        } else if (scrolledToTop) {
+            current = sections[0];
+        } else {
+            const scrollPos = window.scrollY + window.innerHeight / 3;
+            current = lastActive;
+
+            for (const item of sections.slice(1, -1)) {
+                if (item.section.offsetTop <= scrollPos) {
+                    current = item;
+                }
+            }
+
+            if (current === sections[0]) {
+                current = sections[1] || sections[0];
+            }
+        }
+
+        lastActive = current;
+
+        navLinks.forEach(l => l.classList.remove('active-link'));
+        current.link.classList.add('active-link');
+        moveIndicatorTo(current.link);
+    }
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            if (link.dataset.section === 'hero') {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                const target = document.getElementById(link.dataset.section);
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+            navLinks.forEach(l => l.classList.remove('active-link'));
+            link.classList.add('active-link');
+            moveIndicatorTo(link);
+        });
+    });
+
+    window.addEventListener('scroll', updateActiveSection);
+    window.addEventListener('resize', updateActiveSection);
+    updateActiveSection();
+})();
